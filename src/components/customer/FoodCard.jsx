@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardActions, Typography, Button, Chip, CardMedia } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-const FoodCard = ({ name, description, price, category, isAvailable, image, quantity, addFood, removeFood }) => {
+import { useDispatch } from "react-redux";
+import { addItem } from "../../redux/features/orderSlice";
+const FoodCard = ({ name, description, price, category, isAvailable, image }) => {
+    const [quantity, setQuantity] = useState(1);
+    const dispatch = useDispatch();
 
+    const handleIncrement = () => setQuantity(prev => prev + 1);
+    const handleDecrement = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
+    const handleOrderNow = () => {
+        const menuItem = { name, description, price, category, isAvailable, image };
+        dispatch(addItem({ menuItem, quantity })); // => orderItem
+        alert(`Added ${quantity} x ${name} to order!`);
+        setQuantity(1);
+    }
 
     return (
         <Card
@@ -19,18 +31,19 @@ const FoodCard = ({ name, description, price, category, isAvailable, image, quan
             {/* Card Content */}
             <CardContent>
                 {/* Tên món ăn */}
-                <Typography variant="h5" component="div" className="font-bold text-gray-800 ">
+                <Typography variant="h6" component="div" className="!font-bold text-black">
                     {name}
                 </Typography>
 
                 {/* Ảnh món ăn */}
                 <CardMedia
                     component="img"
-                    height="180"
                     image={image}
                     alt={name}
                     sx={{
                         objectFit: "cover",
+                        height: "160px",
+                        width: 300
                     }}
                 />
 
@@ -44,15 +57,17 @@ const FoodCard = ({ name, description, price, category, isAvailable, image, quan
                         className="capitalize"
                     />
                     <div className="pt-2 flex space-x-2">
-                        <AddCircleIcon
+                        <RemoveCircleIcon
+                            onClick={handleDecrement}
                             className="cursor-pointer"
-                            onClick={() => console.log(quantity)}
-
                         />
                         <p>{quantity}</p>
-                        <RemoveCircleIcon
+                        <AddCircleIcon
                             className="cursor-pointer"
+                            onClick={handleIncrement}
+
                         />
+
                     </div>
                 </div>
 
@@ -82,8 +97,9 @@ const FoodCard = ({ name, description, price, category, isAvailable, image, quan
                     color="primary"
                     disabled={!isAvailable}
                     fullWidth
+                    onClick={handleOrderNow}
                 >
-                    {isAvailable ? "Order Now" : "Unavailable"}
+                    {isAvailable ? "Chọn món" : "Unavailable"}
                 </Button>
             </CardActions>
         </Card>
