@@ -4,7 +4,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/features/orderSlice";
-const FoodCard = ({ name, description, price, category, isAvailable, image }) => {
+const FoodCard = ({ id, name, description, price, category, isAvailable, image }) => {
     const [quantity, setQuantity] = useState(1);
     const dispatch = useDispatch();
 
@@ -12,7 +12,7 @@ const FoodCard = ({ name, description, price, category, isAvailable, image }) =>
     const handleDecrement = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
     const handleOrderNow = () => {
-        const menuItem = { name, description, price, category, isAvailable, image };
+        const menuItem = { id, name, description, price, category, isAvailable, image };
         dispatch(addItem({ menuItem, quantity })); // => orderItem
         alert(`Added ${quantity} x ${name} to order!`);
         setQuantity(1);
@@ -43,7 +43,7 @@ const FoodCard = ({ name, description, price, category, isAvailable, image }) =>
                     sx={{
                         objectFit: "cover",
                         height: "160px",
-                        width: 300
+                        width: 250
                     }}
                 />
 

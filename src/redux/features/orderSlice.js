@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    orderItems: [],
-    orderId: null,
+    orderId: '',
+    orderItems: []
 }
-
 const orderSlice = createSlice({
     name: 'order',
     initialState,
     reducers: {
         addItem(state, action) {
             const { menuItem, quantity } = action.payload;
+            console.log('State: ', state);
             const existingItem = state.orderItems.find(item => item.menuItem.id === menuItem.id);
             if (existingItem) {
                 existingItem.quantity += quantity;
@@ -36,8 +36,8 @@ const orderSlice = createSlice({
             state.orderId = null
         }
 
-    }
+    },
 })
 
-export const { addItem, removeItem, updateQuantity, setOrderId, clearOrder } = orderSlice.actions
-export default orderSlice.reducer
+export const { addItem, removeItem, updateQuantity, setOrderId, clearOrder } = orderSlice.actions;
+export default orderSlice.reducer;

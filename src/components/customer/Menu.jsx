@@ -72,25 +72,29 @@ const Menu = () => {
 
     return (
         <>
-            <h1 className="text-2xl text-gray font-bold p-4">Menu - Bàn {tableId}</h1>
-            <div className="flex flex-wrap justify-evenly">
-                {foods.map((food, index) => (
-                    <FoodCard
-                        key={index}
-                        name={food.name}
-                        description={food.description}
-                        price={food.price}
-                        category={food.category}
-                        isAvailable={food.available}
-                        image={food.urlImage}
-                    />
-                ))}
-            </div >
-            <OrderPage
-                tableId={tableId}
-                customerId={1}
-            />
-
+            <div className="flex">
+                <div className="max-w-[1170px] flex flex-col">
+                    <h1 className="text-2xl text-gray font-bold p-4">Menu - Bàn {tableId}</h1>
+                    <div className="flex flex-wrap justify-evenly gap-8">
+                        {foods.map((food, index) => (
+                            <FoodCard
+                                key={index}
+                                id={food.id}
+                                name={food.name}
+                                description={food.description}
+                                price={food.price}
+                                category={food.category}
+                                isAvailable={food.available}
+                                image={food.urlImage}
+                            />
+                        ))}
+                    </div >
+                </div>
+                <OrderPage
+                    tableId={tableId}
+                    customerId={1}
+                />
+            </div>
         </>
     );
 };

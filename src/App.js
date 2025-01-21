@@ -13,17 +13,12 @@ function App() {
           <Route path="/" element={<Table />} />
           <Route path="/menu/:tableId" element={<Menu />} />
           <Route path="/admin" element={<OrderManagement />} />
-
         </Routes>
       </div>
     </Router>
-
-
-
     // <>
     //   <Menu />
     // </>
   );
 }
-
 export default App;
