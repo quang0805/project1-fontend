@@ -25,8 +25,8 @@ const Table = () => {
     }, [])
 
     return (
-        <div className="text-center p-8">
-            <h1 className="text-2xl font-bold mb-4">Chọn Bàn</h1>
+        <div className="text-center p-8 bg-table-background bg-cover h-screen">
+            <h1 className="text-4xl text-white font-bold mb-4">Chọn Bàn</h1>
             <div className="flex justify-center gap-4">
                 {tables.map((table) => (
                     <Button

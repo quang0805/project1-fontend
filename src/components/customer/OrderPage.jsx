@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios'
 import { clearOrder, setOrderId } from '../../redux/features/orderSlice';
-import { Button, Card } from '@mui/material';
-import { FolderSpecial } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import Divider from '@mui/material/Divider';
+
 
 
 const OrderPage = ({ tableId, customerId }) => {
@@ -54,28 +55,33 @@ const OrderPage = ({ tableId, customerId }) => {
     return (
         <div className='flex flex-col fixed top-0 right-0'>
             <div
-                className=' flex flex-col justify-between h-full w-[350px] bg-slate-300 p-5'
+                className=' flex flex-col justify-between h-full w-[350px] bg-paper-background p-5'
             >
                 <ul>
                     {orderItems.map(item => {
                         const totalPriceItem = item.quantity * item.menuItem.price;
                         return (
                             <li key={item.menuItem.id}>
-                                {item.menuItem.name} - {item.quantity} - {totalPriceItem}
+                                {item.menuItem.name} - {item.quantity} - {totalPriceItem.toLocaleString()} VND
                             </li>
                         );
                     })}
                 </ul>
-                <h4>Tổng tiền: {totalMoney}</h4>
+                <Divider variant="middle" component="li" />
+                <h4 className='pt-4 font-bold'>Tổng tiền: {totalMoney.toLocaleString()} VND</h4>
             </div>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSubmitOrder}
-                className=''
-            >
-                Order Now
-            </Button>
+            <div className='flex justify-between'>
+                <Button
+                    variant="contained"
+                    onClick={handleSubmitOrder}
+                    sx={{
+                        width: 'stretch',
+                        backgroundColor: '#232323'
+                    }}
+                >
+                    Order Now
+                </Button>
+            </div>
         </div>
     )
 }

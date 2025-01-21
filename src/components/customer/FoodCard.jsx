@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, CardContent, CardActions, Typography, Button, Chip, CardMedia } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/features/orderSlice";
 const FoodCard = ({ id, name, description, price, category, isAvailable, image }) => {
@@ -20,8 +21,9 @@ const FoodCard = ({ id, name, description, price, category, isAvailable, image }
 
     return (
         <Card
-            className="shadow-lg"
+            className="shadow-xl"
             sx={{
+                backgroundColor: '#efefef',
                 maxWidth: 345,
                 borderRadius: 2,
                 border: 1,
@@ -31,10 +33,12 @@ const FoodCard = ({ id, name, description, price, category, isAvailable, image }
             {/* Card Content */}
             <CardContent>
                 {/* Tên món ăn */}
-                <Typography variant="h6" component="div" className="!font-bold text-black">
-                    {name}
-                </Typography>
-
+                <div className="flex justify-between">
+                    <Typography variant="h6" component="div" className="!font-bold text-black">
+                        {name}
+                    </Typography>
+                    <FastfoodIcon />
+                </div>
                 {/* Ảnh món ăn */}
                 <CardMedia
                     component="img"
@@ -51,7 +55,7 @@ const FoodCard = ({ id, name, description, price, category, isAvailable, image }
                 <div className="flex justify-between">
                     <Chip
                         label={category}
-                        color="primary"
+                        color={category === 'FOOD' ? 'warning' : 'primary'}
                         size="small"
                         sx={{ mt: 1, mb: 2 }}
                         className="capitalize"
