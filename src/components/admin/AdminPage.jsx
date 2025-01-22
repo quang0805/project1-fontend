@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 
 const AdminPage = () => {
     return (
-        <div>
+        <div >
             <Navbar />
         </div>
     )

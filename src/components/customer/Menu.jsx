@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FoodCard from "./FoodCard";
-import axios from "axios";
 import OrderPage from "./OrderPage";
+import { fetchMenuItems } from "../../redux/features/menuItemSlice";
+
 
 
 const Menu = () => {
     const { tableId } = useParams();
-    const [foods, setFoods] = useState([]);
-    const [quantity, setQuantity] = useState(0);
     const dispatch = useDispatch();
+    const { items, loading, error } = useSelector((state) => state.menu);
 
     useEffect(() => {
-        const fetchMenuItem = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/menu');
-                const menuItems = response.data;
-                setFoods(menuItems);
-                console.log(menuItems);
-            } catch (error) {
-                alert('Error when request to server!');
-            }
-        }
-        fetchMenuItem();
+        dispatch(fetchMenuItems());
 
-    }, []);
+        const intervalId = setInterval(() => {
+            dispatch(fetchMenuItems());
+        }, 500);
+
+        return () => clearInterval(intervalId);
+    }, [dispatch]);
+
     return (
         <>
             <div className="flex relative bg-menu-background bg-no-repeat bg-cover min-h-screen">
@@ -33,7 +29,7 @@ const Menu = () => {
                 <div className="max-w-[1170px] flex flex-col ">
                     <h1 className="text-2xl text-white font-bold p-4">Menu - Bàn {tableId}</h1>
                     <div className="flex flex-wrap justify-evenly gap-8">
-                        {foods.map((food, index) => (
+                        {items.map((food, index) => (
                             <FoodCard
                                 key={index}
                                 id={food.id}
