@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import Navbar from './Navbar'
-import axios from "axios";;
+import axios from "axios"; import TableCard from "../Card/TableCard";
+;
 
 export default function CreateTable() {
     const [tableNumber, setTableNumber] = useState("");
@@ -48,10 +49,14 @@ export default function CreateTable() {
                 <div>
                     {
                         tables ?
-                            <div className="flex">
+                            <div className="p-5 flex flex-wrap justify-around gap-5">
                                 {
                                     tables.map(
-                                        table => <div>{table.id}</div>
+                                        table => <TableCard
+                                            tableId={table.id}
+                                            tableNumber={table.number}
+                                            status={table.status}
+                                        />
                                     )
                                 }
                             </div>

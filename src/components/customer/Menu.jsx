@@ -17,7 +17,7 @@ const Menu = () => {
 
         const intervalId = setInterval(() => {
             dispatch(fetchMenuItems());
-        }, 500);
+        }, 100);
 
         return () => clearInterval(intervalId);
     }, [dispatch]);

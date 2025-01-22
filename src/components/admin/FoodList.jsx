@@ -7,10 +7,12 @@ import { interactionTargetMap } from 'web-vitals/attribution/onINP.js';
 
 const FoodList = () => {
     const [menuItems, setMenuItems] = useState([]);
+    const [change, setChange] = useState(true);
 
     const changeStatusMenuItem = async (id) => {
         try {
             await axios.put(`http://localhost:8080/menu/${id}`)
+            setChange(prev => !prev);
         } catch (error) {
             alert(error);
         }
@@ -27,17 +29,16 @@ const FoodList = () => {
 
 
     useEffect(() => {
-        const intervalId = setInterval(async () => {
+        const fetchFoodList = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/menu');
                 setMenuItems(response.data);
             } catch (error) {
                 alert('Error when connect to server!');
             }
-        }, 3000)
-
-        return () => clearInterval(intervalId)
-    }, [])
+        }
+        fetchFoodList();
+    }, [change])
 
 
     return (

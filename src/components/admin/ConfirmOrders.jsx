@@ -1,45 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
 import axios from "axios";
+import Navbar from '../admin/Navbar';
+import OrderCard from "./Order/OrderCard";
 
 export default function ConfirmOrders() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            const response = await axios.get("http://localhost:8080/orders");
-            setOrders(response.data);
-        };
-        fetchOrders();
-    }, []);
+        const intervalId = setInterval(() => {
+            const fetchOrders = async () => {
+                const response = await axios.get('http://localhost:8080/orders');
+                setOrders(response.data);
+                console.log(response.data);
+            }
+            fetchOrders();
+        }, 1000);
+    }, [])
 
-    const handleConfirm = async (orderId) => {
+    const updateOrderStatus = async (orderId, orderStatus) => {
         try {
-            await axios.post(`http://localhost:8080/order/confirm?orderId=${orderId}`);
-            alert("Order confirmed!");
-            setOrders((prev) => prev.filter((order) => order.id !== orderId));
+            await axios.patch(`http://localhost:8080/order/change-status`, { orderId: orderId, orderStatus: orderStatus });
+            setOrders((prevOrders) =>
+                prevOrders.map((order) =>
+                    order.id === orderId ? { ...order, status: orderStatus } : order
+                )
+            );
         } catch (error) {
-            console.error(error);
-            alert("Failed to confirm order.");
+            console.log('Error when updating order status: ', error)
         }
-    };
+    }
 
     return (
-        <Box p={3}>
-            <h2>Xác Nhận Order</h2>
-            {orders.map((order) => (
-                <Box key={order.id} mb={2} p={2} border="1px solid #ccc" borderRadius="8px">
-                    <Typography>Số bàn: {order.tableId}</Typography>
-                    <Typography>Tổng tiền: {order.totalAmount} VND</Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleConfirm(order.id)}
-                    >
-                        Xác Nhận
-                    </Button>
-                </Box>
-            ))}
-        </Box>
+        <div className="flex">
+            <Navbar />
+            <div className="flex flex-wrap">
+                {
+                    orders ?
+                        orders.map(order => (
+                            (order.orderStatus != 'COMPLETED') ?
+                                <OrderCard
+                                    key={order.id}
+                                    order={order}
+                                    onUpdateStatus={updateOrderStatus}
+                                /> : null
+                        )) : null
+                }
+            </div>
+        </div>
     );
 }

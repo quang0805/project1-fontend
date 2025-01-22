@@ -8,6 +8,7 @@ import { createMenuItem } from "../../redux/features/menuItemSlice";
 export default function CreateMenuItem() {
     const dispatch = useDispatch();
 
+
     const [menuItem, setMenuItem] = useState({
         name: "",
         description: "",
@@ -36,7 +37,7 @@ export default function CreateMenuItem() {
     };
 
     return (
-        <div className="flex bg-gray-300">
+        <div className="flex">
             <Navbar
             />
             <div className="!h-[500px] ">
